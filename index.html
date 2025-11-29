@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTracker</title>
+    <meta name="description" content="High-performance coding habit tracker with neo-brutalist design.">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        background: 'hsl(220 15% 10%)',
+                        foreground: 'hsl(220 10% 90%)',
+                        card: 'hsl(220 15% 14%)',
+                        cardForeground: 'hsl(220 10% 90%)',
+                        primary: 'hsl(0 85% 60%)',
+                        primaryForeground: 'hsl(0 0% 100%)',
+                        secondary: 'hsl(220 15% 20%)',
+                        secondaryForeground: 'hsl(220 10% 90%)',
+                        muted: 'hsl(220 15% 25%)',
+                        mutedForeground: 'hsl(220 10% 65%)',
+                        accent: 'hsl(240 80% 65%)',
+                        accentForeground: 'hsl(0 0% 100%)',
+                        destructive: 'hsl(0 70% 50%)',
+                        destructiveForeground: 'hsl(0 0% 98%)',
+                        border: 'hsl(220 15% 30%)',
+                        input: 'hsl(220 15% 16%)',
+                        ring: 'hsl(0 85% 60%)',
+                        success: 'hsl(142, 71%, 45%)',
+                        warning: 'hsl(48, 96%, 50%)',
+                    },
+                    borderRadius: {
+                        sm: '0',
+                        md: '0',
+                        lg: '0',
+                    },
+                    boxShadow: {
+                        'sm': '2px 2px 0 0 rgb(0 0 0 / 0.6)',
+                        'md': '4px 4px 0 0 rgb(0 0 0 / 0.6)',
+                        'lg': '8px 8px 0 0 rgb(0 0 0 / 0.6)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- External Libraries (CDNs) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col pb-20 bg-background text-foreground" style="position: relative; z-index: 1;">
+
+    <div id="toast-container"></div>
+
+    <!-- FOCUS TIMER -->
+    <div id="focusTimer" class="timer-widget collapsed">
+        <div id="timerCollapsedBtn" class="collapsed-view w-full h-full flex items-center justify-center text-primary hover:opacity-80 transition cursor-pointer">
+            <i class="fa-solid fa-stopwatch text-2xl"></i>
+        </div>
+        <div class="expanded-view hidden w-full p-4 flex-col">
+            <div class="flex justify-between items-center mb-4 border-b-2 border-border pb-2">
+                <span class="text-sm font-bold uppercase text-mutedForeground">Focus Mode</span>
+                <button id="toggleTimerBtn" class="hover:text-primary transition"><i class="fa-solid fa-compress-alt"></i></button>
+            </div>
+            <div class="text-center mb-6">
+                <div id="timerDisplay" class="timer-display text-5xl">00:00</div>
+            </div>
+            <div class="flex gap-2 justify-center">
+                <button id="startTimerBtn" class="shad-btn w-12 h-12 bg-success text-white"><i class="fa-solid fa-play"></i></button>
+                <button id="pauseTimerBtn" class="shad-btn w-12 h-12 hidden bg-warning text-white"><i class="fa-solid fa-pause"></i></button>
+                <button id="stopTimerBtn" class="shad-btn bg-destructive text-destructiveForeground w-12 h-12 hover:opacity-90"><i class="fa-solid fa-stop"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="border-b-2 border-border bg-card sticky top-0 z-40 shadow-md backdrop-blur-none">
+        <div class="max-w-7xl mx-auto py-4 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <div class="w-12 h-12 bg-foreground border-2 border-border shadow-sm flex items-center justify-center text-primary text-2xl">
+                    <i class="fa-solid fa-terminal"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-black uppercase tracking-tighter text-foreground">DevTracker</h1>
+                    <div class="flex items-center gap-2">
+                        <span id="headerDate" class="text-xs font-bold font-mono uppercase tracking-wide border-l-2 border-border pl-2 text-mutedForeground"></span>
+                    </div>
+                    <span class="text-xs font-bold block mt-1 text-mutedForeground">User: <span id="userNameDisplay" class="text-foreground">Loading...</span></span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 w-full md:w-auto bg-card border-2 border-border p-3 shadow-sm">
+                <div class="flex flex-col items-center px-2 border-r-2 border-border">
+                    <div class="text-xs font-bold uppercase text-mutedForeground">Rank</div>
+                    <div id="rankName" class="font-black text-lg text-accent">---</div>
+                </div>
+                <div class="flex-1 min-w-[150px]">
+                    <div class="flex justify-between text-xs font-bold mb-1 text-mutedForeground">
+                        <span>LVL <span id="userLevel" class="text-foreground">0</span></span>
+                        <span id="xpText" class="font-mono">0/100</span>
+                    </div>
+                    <div class="h-3 w-full xp-bg">
+                        <div id="xpProgressBar" class="xp-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button id="settingsBtn" class="shad-btn bg-foreground text-primaryForeground h-8 w-8 p-0 hover:opacity-90 border-border"><i class="fa-solid fa-cog"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 p-6 max-w-7xl mx-auto w-full space-y-8" style="position: relative; z-index: 1;">
+        
+        <!-- QUOTE BANNER -->
+        <div class="w-full bg-muted border-2 border-border p-2 text-center font-bold font-mono text-sm text-mutedForeground overflow-hidden shadow-sm">
+             <p id="dailyQuote">Loading inspiration...</p>
+        </div>
+
+        <!-- STATS CARDS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="shad-card p-4">
+                <div class="text-xs font-bold uppercase mb-2 border-b-2 border-border pb-1 text-primary">Streak</div>
+                <div class="text-4xl font-black text-foreground" id="currentStreak">0</div>
+            </div>
+            <div class="shad-card p-4">
+                <div class="text-xs font-bold uppercase mb-2 border-b-2 border-border pb-1 text-secondary">Weekly Goal</div>
+                <div class="flex items-end gap-2">
+                    <div class="text-3xl font-black" id="weeklyHours">0h</div>
+                    <div class="text-sm font-mono mb-1 text-mutedForeground">/ <span id="weeklyGoalDisplay">5</span>h</div>
+                </div>
+                <div class="h-2 w-full bg-input border-2 border-border mt-2">
+                    <div id="weeklyProgressBar" class="h-full transition-all duration-500 bg-primary" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="shad-card p-4">
+                <div class="text-xs font-bold uppercase mb-2 border-b-2 border-border pb-1 text-accent">Solved</div>
+                <div class="text-4xl font-black" id="totalProblems">0</div>
+            </div>
+            <div class="shad-card p-4">
+                <div class="text-xs font-bold uppercase mb-2 border-b-2 border-border pb-1 text-success">Total Time</div>
+                <div class="text-4xl font-black text-foreground" id="totalHours">0</div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- LEFT -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- CALENDAR -->
+                <div class="shad-card p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-black text-xl uppercase border-b-2 border-border inline-block text-foreground">Activity Map</h3>
+                        <div class="flex gap-2">
+                            <button id="prevMonthBtn" class="shad-btn bg-foreground text-primaryForeground h-8 w-8 border-border"><i class="fa-solid fa-arrow-left"></i></button>
+                            <span id="currentMonthYear" class="font-bold font-mono text-lg px-2 text-foreground"></span>
+                            <button id="nextMonthBtn" class="shad-btn bg-foreground text-primaryForeground h-8 w-8 border-border"><i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2 mb-2 text-center font-bold text-sm text-mutedForeground">
+                        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                    </div>
+                    <div id="calendarGrid" class="calendar-grid"></div>
+                </div>
+
+                <!-- HISTORY -->
+                <div class="shad-card flex flex-col">
+                    <div class="p-4 border-b-2 border-border flex justify-between items-center bg-muted">
+                        <h3 class="font-black text-lg uppercase text-foreground">Log History</h3>
+                        <div class="flex gap-2">
+                            <input type="text" id="searchLogs" placeholder="SEARCH..." class="shad-input h-10 w-40 text-xs">
+                            <button id="newLogBtn" class="shad-btn shad-btn-primary h-10 text-sm"><i class="fa-solid fa-plus mr-2"></i> NEW LOG</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-foreground text-primaryForeground">
+                                <tr>
+                                    <th>Date</th><th>Problem</th><th>Diff</th><th class="text-right">Time</th><th class="text-right">Opts</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activityTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="space-y-8">
+                <!-- QUESTS -->
+                <div class="shad-card p-6 border-l-8 border-l-primary">
+                    <h3 class="font-black text-lg uppercase mb-4 flex items-center gap-2 text-foreground">
+                        <i class="fa-solid fa-scroll text-primary"></i> Daily Quests
+                    </h3>
+                    <div id="questsContainer" class="space-y-3"></div>
+                    
+                    <div class="mt-6 pt-4 border-t-2 border-border border-dashed">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-xs uppercase text-mutedForeground">Custom Tasks</span>
+                            <button id="addCustomTaskBtn" class="text-xs font-bold bg-foreground text-primaryForeground px-2 py-1 hover:opacity-90 transition border-2 border-border shadow-sm">+ ADD</button>
+                        </div>
+                        <div id="customTasksContainer" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- CHARTS -->
+                <div class="shad-card p-6">
+                    <h3 class="font-black text-sm uppercase mb-4 border-b-2 border-border pb-1 text-mutedForeground">Platform Split</h3>
+                    <div class="h-40 relative"><canvas id="platformChart"></canvas></div>
+                </div>
+                <div class="shad-card p-6">
+                    <h3 class="font-black text-sm uppercase mb-4 border-b-2 border-border pb-1 text-mutedForeground">Difficulty</h3>
+                    <div class="h-40 relative"><canvas id="difficultyChart"></canvas></div>
+                </div>
+
+                <!-- ACHIEVEMENTS -->
+                <div class="shad-card p-6 max-h-[500px] overflow-y-auto custom-scrollbar">
+                    <h3 class="font-black text-lg uppercase mb-4 sticky top-0 bg-card z-10 border-b-2 border-border pb-2 text-accent">Badges</h3>
+                    <div id="badgesContainer" class="grid grid-cols-2 gap-3"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="fixed bottom-6 left-6 flex gap-2 z-30">
+        <button id="backupBtn" class="shad-btn bg-foreground text-primaryForeground text-xs h-8 border-border shadow-sm" title="Backup"><i class="fa-solid fa-download mr-1"></i> BACKUP</button>
+        <button id="restoreBtn" class="shad-btn bg-foreground text-primaryForeground text-xs h-8 border-border shadow-sm" title="Restore"><i class="fa-solid fa-upload mr-1"></i> RESTORE</button>
+        <input type="file" id="dbInput" class="hidden" accept=".sqlite">
+    </div>
+
+    <!-- LOG MODAL -->
+    <div id="logModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-md">
+            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-muted">
+                <h3 class="font-black uppercase text-xl text-foreground">New Entry</h3>
+                <button class="modal-close text-mutedForeground hover:text-foreground transition font-bold text-xl">&times;</button>
+            </div>
+            <div class="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
+                <form id="logForm" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="font-bold text-xs uppercase text-mutedForeground">Date</label><input type="date" id="entryDate" class="shad-input"></div>
+                        <div><label class="font-bold text-xs uppercase text-mutedForeground">Time (min)</label><input type="number" id="timeSpent" class="shad-input" min="1"></div>
+                    </div>
+                    <div><label class="font-bold text-xs uppercase text-mutedForeground">Problem</label><input type="text" id="problemName" class="shad-input" placeholder="Two Sum"></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="font-bold text-xs uppercase text-mutedForeground">Platform</label><select id="platform" class="shad-input"><option value="LeetCode">LeetCode</option><option value="Codeforces">Codeforces</option><option value="HackerRank">HackerRank</option><option value="Other">Other</option></select></div>
+                        <div><label class="font-bold text-xs uppercase text-mutedForeground">Diff</label><select id="difficulty" class="shad-input"><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option></select></div>
+                    </div>
+                    <div><label class="font-bold text-xs uppercase text-mutedForeground">Tags</label><input type="text" id="tags" class="shad-input" placeholder="dp, graph"></div>
+                    <div><label class="font-bold text-xs uppercase text-mutedForeground">Notes</label><textarea id="description" class="shad-textarea" placeholder="What did you learn?"></textarea></div>
+                </form>
+            </div>
+            <div class="p-4 border-t-2 border-border flex justify-end gap-2 bg-muted">
+                <button class="modal-close shad-btn-outline">CANCEL</button>
+                <button id="saveLogBtn" class="shad-btn-primary">SAVE LOG</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-sm">
+            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-muted">
+                <h3 class="font-black uppercase text-xl text-foreground">Settings</h3>
+                <button class="modal-close text-mutedForeground hover:text-foreground font-bold text-xl">&times;</button>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="font-bold text-xs uppercase text-mutedForeground">Weekly Goal (Mins)</label>
+                    <input type="number" id="settingWeeklyGoal" class="shad-input" value="300">
+                </div>
+            </div>
+            <div class="p-4 border-t-2 border-border flex justify-end bg-muted">
+                <button id="saveSettingsBtn" class="shad-btn-primary">SAVE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW LOG MODAL -->
+    <div id="viewLogModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-md">
+            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-accent text-accentForeground">
+                <h3 class="font-black uppercase text-xl">Details</h3>
+                <button class="modal-close font-bold text-xl">&times;</button>
+            </div>
+            <div class="p-6 space-y-4 font-mono text-sm" id="viewLogContent"></div>
+            <div class="p-4 border-t-2 border-border flex justify-end bg-muted">
+                <button class="modal-close shad-btn-outline">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONBOARDING -->
+    <div id="onboardingModal" class="fixed inset-0 modal-overlay z-[60] flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-sm text-center p-8 bg-card">
+            <div class="w-20 h-20 bg-foreground border-2 border-border flex items-center justify-center mx-auto mb-4 text-4xl shadow-sm text-primary"><i class="fa-solid fa-user-astronaut"></i></div>
+            <h2 class="text-2xl font-black uppercase mb-2 text-foreground">Welcome!</h2>
+            <p class="text-sm font-bold mb-6 text-mutedForeground">What should we call you?</p>
+            <input type="text" id="onboardingName" class="shad-input text-center mb-4" placeholder="YOUR NAME">
+            <button id="finishOnboardingBtn" class="shad-btn bg-primary text-black w-full">START TRACKING</button>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script src="js/db.js"></script>
+    <script>
+        // Expose db functions to window
+        window.exportDB = exportDB;
+        window.saveDB = saveDB;
+        window.importDB = importDB;
+        // Call initDB on load
+        (async () => {
+            await initDB();
+            window.db = db;
+            if (window.onDBReady) window.onDBReady();
+        })();
+    </script>
+    <script src="js/app.js"></script>
+</body>
+</html>
