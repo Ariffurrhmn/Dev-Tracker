@@ -4,6 +4,84 @@ A high-performance coding habit tracker with dark mode neo-brutalist design, gam
 
 ![DevTracker](https://img.shields.io/badge/version-17.0-red) ![License](https://img.shields.io/badge/license-MIT-blue)
 
+## 📸 Screenshots
+
+> **Note**: Add screenshots to showcase your app! Suggested captures:
+
+### Recommended Screenshots:
+
+1. **Main Dashboard** (`screenshot-dashboard.png`)
+   - Full view of the main interface showing:
+     - Header with rank, level, XP bar
+     - Stats cards (Streak, Weekly Goal, Solved, Total Time)
+     - Activity calendar heatmap
+     - Recent activity table
+
+2. **Daily Quests** (`screenshot-quests.png`)
+   - Daily quests section showing:
+     - 3 active quests with category badges
+     - Progress indicators
+     - Completed quest with checkmark
+     - Category color coding (Core, Learning, Wellness)
+
+3. **Achievements/Badges** (`screenshot-badges.png`)
+   - Badges section displaying:
+     - Unlocked badges with glow effects
+     - Locked badges in grayscale
+     - Badge categories (Milestones, Streaks, Mastery, etc.)
+     - Achievement icons and descriptions
+
+4. **Log Entry Modal** (`screenshot-log-modal.png`)
+   - New log entry form showing:
+     - All input fields (date, problem name, platform, difficulty, time, tags, description)
+     - Form styling with neo-brutalist design
+     - Save button
+
+5. **Activity Calendar** (`screenshot-calendar.png`)
+   - Close-up of the calendar heatmap showing:
+     - Different intensity levels (color-coded days)
+     - Month navigation
+     - Hover effects on active days
+
+6. **Analytics & Charts** (`screenshot-analytics.png`)
+   - Charts section showing:
+     - Difficulty distribution pie chart
+     - Platform usage chart
+     - Weekly progress visualization
+
+7. **Focus Timer** (`screenshot-timer.png`)
+   - Expanded timer widget showing:
+     - Timer display
+     - Start/Pause/Stop buttons
+     - Timer styling
+
+8. **Settings Modal** (`screenshot-settings.png`)
+   - Settings interface showing:
+     - Weekly goal input
+     - Other settings options
+
+### Screenshot Tips:
+- **Resolution**: Use 1920x1080 or higher for best quality
+- **Format**: PNG for best quality, or optimized WebP
+- **Naming**: Use descriptive names like `screenshot-dashboard.png`
+- **Consistency**: Use the same browser/theme for all screenshots
+- **Show Data**: Add some sample data to make screenshots more realistic
+- **Highlight Features**: Use arrows or annotations to highlight key features if needed
+
+### Adding Screenshots to README:
+```markdown
+## 📸 Screenshots
+
+### Main Dashboard
+![Dashboard](screenshots/screenshot-dashboard.png)
+
+### Daily Quests
+![Daily Quests](screenshots/screenshot-quests.png)
+
+### Achievements
+![Achievements](screenshots/screenshot-badges.png)
+```
+
 ## ✨ Features
 
 ### 📊 Core Tracking

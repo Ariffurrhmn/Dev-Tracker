@@ -328,17 +328,44 @@ function closeModal(id) {
 }
 
 function openSettings() { 
-    document.getElementById('settingWeeklyGoal').value = settings.weeklyGoal; 
-    const m = document.getElementById('settingsModal'); m.classList.remove('hidden'); 
-    setTimeout(() => m.classList.add('active'), 10); 
+    document.getElementById('settingWeeklyGoal').value = settings.weeklyGoal;
+    // Load current username
+    if(window.db) {
+        try {
+            const usernameRes = window.db.exec("SELECT value FROM settings WHERE key='username'");
+            if(usernameRes.length > 0 && usernameRes[0].values.length > 0) {
+                document.getElementById('settingUsername').value = usernameRes[0].values[0][0];
+            } else {
+                document.getElementById('settingUsername').value = '';
+            }
+        } catch(e) {
+            document.getElementById('settingUsername').value = '';
+        }
+    }
+    const m = document.getElementById('settingsModal'); 
+    m.classList.remove('hidden'); 
+    setTimeout(() => m.classList.add('active'), 10);
 }
 
 function saveSettings() {
     settings.weeklyGoal = parseInt(document.getElementById('settingWeeklyGoal').value) || 300;
     window.db.run("INSERT OR REPLACE INTO settings (key, value) VALUES ('weeklyGoal', ?)", [settings.weeklyGoal]);
+    
+    // Save username if provided
+    const username = document.getElementById('settingUsername').value.trim();
+    if(username) {
+        window.db.run("INSERT OR REPLACE INTO settings (key, value) VALUES ('username', ?)", [username]);
+        // Update display immediately
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        if(userNameDisplay) userNameDisplay.innerText = username;
+    }
+    
     window.saveDB();
     closeModal('settingsModal');
     refreshAll();
+    if(username) {
+        showToast("Settings saved!", "success");
+    }
 }
 
 function saveLog() {
