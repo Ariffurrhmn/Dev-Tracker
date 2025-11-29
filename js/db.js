@@ -110,6 +110,39 @@ function importDB(input) {
 // Expose importDB
 window.importDB = importDB;
 
+// Clear all user data
+function clearAllData() {
+    if (!confirm("⚠️ WARNING: This will delete ALL your data including logs, settings, quests, and tasks. This cannot be undone!\n\nAre you absolutely sure?")) {
+        return;
+    }
+    
+    if (!confirm("Last chance! This will permanently delete everything. Continue?")) {
+        return;
+    }
+    
+    try {
+        // Clear localStorage
+        localStorage.removeItem('devTrackerDB');
+        localStorage.removeItem('lastQuestDate');
+        
+        // Show confirmation
+        if (window.showToast) {
+            window.showToast("All data cleared. Reloading...", "success");
+        }
+        
+        // Reload page to reinitialize with fresh database
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    } catch (e) {
+        console.error("Error clearing data:", e);
+        alert("Error clearing data. Please try again.");
+    }
+}
+
+// Expose clearAllData
+window.clearAllData = clearAllData;
+
 // Initialize Daily Activities
 function initializeDailyActivities() {
     const activities = [

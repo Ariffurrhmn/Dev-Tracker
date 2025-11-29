@@ -1,63 +1,31 @@
-// Sound System
+// Sound System - Disabled
 class SoundManager {
     constructor() {
-        this.audioContext = null;
-        this.enabled = true;
-        this.init();
+        this.enabled = false;
     }
 
-    init() {
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        } catch (e) {
-            console.warn("Web Audio API not supported");
-            this.enabled = false;
-        }
-    }
-
-    playTone(frequency, duration, type = 'sine', volume = 0.3) {
-        if (!this.enabled || !this.audioContext) return;
-        
-        const oscillator = this.audioContext.createOscillator();
-        const gainNode = this.audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(this.audioContext.destination);
-        
-        oscillator.frequency.value = frequency;
-        oscillator.type = type;
-        
-        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(volume, this.audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-        
-        oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + duration);
+    playTone() {
+        // Sounds disabled
     }
 
     playClick() {
-        this.playTone(800, 0.1, 'square', 0.2);
+        // Sounds disabled
     }
 
     playSuccess() {
-        this.playTone(523, 0.15, 'sine', 0.3);
-        setTimeout(() => this.playTone(659, 0.15, 'sine', 0.3), 50);
-        setTimeout(() => this.playTone(784, 0.2, 'sine', 0.3), 100);
+        // Sounds disabled
     }
 
     playError() {
-        this.playTone(200, 0.3, 'sawtooth', 0.3);
+        // Sounds disabled
     }
 
     playComplete() {
-        this.playTone(523, 0.1, 'sine', 0.3);
-        setTimeout(() => this.playTone(659, 0.1, 'sine', 0.3), 100);
-        setTimeout(() => this.playTone(784, 0.1, 'sine', 0.3), 200);
-        setTimeout(() => this.playTone(1047, 0.2, 'sine', 0.3), 300);
+        // Sounds disabled
     }
 
     playHover() {
-        this.playTone(600, 0.05, 'sine', 0.1);
+        // Sounds disabled
     }
 }
 
@@ -79,9 +47,9 @@ const QUOTES = [
 
 const BADGES = [
     // Milestones
-    { id: 'hello_world', name: 'Hello World', desc: 'Log your first problem', icon: 'fa-hand-wave', category: 'Milestones', color: 'text-yellow-400', check: s => s.total >= 1 },
+    { id: 'hello_world', name: 'Hello World', desc: 'Log your first problem', icon: 'fa-hand', category: 'Milestones', color: 'text-yellow-400', check: s => s.total >= 1 },
     { id: 'getting_started', name: 'Getting Started', desc: 'Solve 10 problems', icon: 'fa-rocket', category: 'Milestones', color: 'text-blue-400', check: s => s.total >= 10 },
-    { id: 'half_century', name: 'Half Century', desc: 'Solve 50 problems', icon: 'fa-star-half-stroke', category: 'Milestones', color: 'text-green-400', check: s => s.total >= 50 },
+    { id: 'half_century', name: 'Half Century', desc: 'Solve 50 problems', icon: 'fa-star-half', category: 'Milestones', color: 'text-green-400', check: s => s.total >= 50 },
     { id: 'centurion', name: 'Centurion', desc: 'Solve 100 problems', icon: 'fa-trophy', category: 'Milestones', color: 'text-purple-400', check: s => s.total >= 100 },
     { id: 'legend', name: 'Legend', desc: 'Solve 500 problems', icon: 'fa-crown', category: 'Milestones', color: 'text-yellow-500', check: s => s.total >= 500 },
     
@@ -119,7 +87,7 @@ const BADGES = [
     { id: 'cf_specialist', name: 'CF Specialist', desc: '50 problems on Codeforces', icon: 'fa-chess-knight', category: 'Platforms', color: 'text-cyan-400', check: s => (s.platCounts['Codeforces'] || 0) >= 50 },
     { id: 'hundred_hours', name: '100 Hours', desc: '100 hours total time tracked', icon: 'fa-hourglass-half', category: 'Dedication', color: 'text-yellow-400', check: s => (s.minutes / 60) >= 100 },
     { id: 'five_hundred_hours', name: '500 Hours', desc: '500 hours total time tracked', icon: 'fa-hourglass', category: 'Dedication', color: 'text-orange-500', check: s => (s.minutes / 60) >= 500 },
-    { id: 'weekender', name: 'Weekender', desc: '10 problems solved on weekends', icon: 'fa-calendar-weekend', category: 'Dedication', color: 'text-purple-400', check: s => s.weekendProblems >= 10 },
+    { id: 'weekender', name: 'Weekender', desc: '10 problems solved on weekends', icon: 'fa-calendar-week', category: 'Dedication', color: 'text-purple-400', check: s => s.weekendProblems >= 10 },
     { id: 'marathoner', name: 'Marathoner', desc: 'Single session lasting > 120 minutes', icon: 'fa-running', category: 'Dedication', color: 'text-red-500', check: s => s.maxSessionTime >= 120 }
 ];
 
@@ -171,10 +139,12 @@ function loadDailyActivities() {
 function setupEventListeners() {
     // Search
     const searchInput = document.getElementById('searchLogs');
-    searchInput.addEventListener('input', (e) => {
-        soundManager.playHover();
-        renderStats(e.target.value);
-    });
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            soundManager.playHover();
+            renderStats(e.target.value);
+        });
+    }
     
     // Modal Triggers
     document.querySelectorAll('.modal-close').forEach(btn => {
@@ -271,6 +241,15 @@ function setupEventListeners() {
         restoreBtn.onclick = () => { soundManager.playClick(); document.getElementById('dbInput').click(); };
     }
     
+    const clearDataBtn = document.getElementById('clearDataBtn');
+    if (clearDataBtn) {
+        clearDataBtn.onclick = () => { 
+            if (confirm("⚠️ WARNING: This will delete ALL your data. Are you sure?")) {
+                window.clearAllData(); 
+            }
+        };
+    }
+    
     const dbInput = document.getElementById('dbInput');
     if (dbInput) {
         dbInput.onchange = (e) => { soundManager.playSuccess(); window.importDB(e.target); };
@@ -310,7 +289,10 @@ function refreshAll() {
     generateDailyQuests();
     renderQuests();
     renderCalendar();
-    renderStats();
+    // Preserve search input value when refreshing
+    const searchInput = document.getElementById('searchLogs');
+    const searchValue = searchInput ? searchInput.value : '';
+    renderStats(searchValue);
     renderBadges();
     renderTasks();
     updateCharts();
@@ -411,8 +393,11 @@ function processStats(rows) {
     };
     let dates = new Set();
     const today = new Date();
-    const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-    startOfWeek.setHours(0,0,0,0);
+    // Calculate start of week (Sunday = 0, Monday = 1, etc.)
+    const startOfWeek = new Date(today);
+    const dayOfWeek = today.getDay();
+    startOfWeek.setDate(today.getDate() - dayOfWeek);
+    startOfWeek.setHours(0, 0, 0, 0);
 
     rows.forEach(r => {
         // r indices: 0=id, 1=date, 2=time, 3=problem, 4=platform, 5=difficulty, 6=tags, 7=description
@@ -430,7 +415,7 @@ function processStats(rows) {
         if (r[2] > s.maxSessionTime) s.maxSessionTime = r[2];
         
         // Weekend detection (Saturday = 6, Sunday = 0)
-        const logDate = new Date(r[1]);
+        const logDate = new Date(r[1] + 'T00:00:00'); // Ensure time is 00:00:00 for accurate comparison
         const dayOfWeek = logDate.getDay();
         if (dayOfWeek === 0 || dayOfWeek === 6) {
             s.weekendProblems++;
@@ -452,7 +437,10 @@ function processStats(rows) {
         let diffXp = r[5] === 'Easy' ? 10 : (r[5] === 'Medium' ? 25 : 50); 
         s.xp += diffXp + r[2];
         
-        if (new Date(r[1]) >= startOfWeek) s.weekMinutes += r[2];
+        // Check if log date is within current week (from Sunday to today)
+        if (logDate >= startOfWeek) {
+            s.weekMinutes += r[2];
+        }
     });
     
     // Convert Set to count for badge checking
@@ -488,6 +476,7 @@ function processStats(rows) {
 }
 
 function renderStats(search = "") {
+    if(!window.db) return;
     const res = window.db.exec("SELECT * FROM logs ORDER BY date DESC");
     let rows = res.length ? res[0].values : [];
     let stats = processStats(rows);
@@ -551,25 +540,45 @@ function renderStats(search = "") {
     // Table Render
     const tbody = document.getElementById('activityTableBody');
     if(tbody) {
+        // Clear existing content
         tbody.innerHTML = '';
-        if(search) rows = rows.filter(r => r[3].toLowerCase().includes(search.toLowerCase()));
+        
+        // Apply search filter if provided
+        let filteredRows = rows;
+        if(search && search.trim()) {
+            filteredRows = rows.filter(r => {
+                const problemName = (r[3] || '').toLowerCase();
+                const platform = (r[4] || '').toLowerCase();
+                const tags = (r[6] || '').toLowerCase();
+                const searchLower = search.toLowerCase();
+                return problemName.includes(searchLower) || 
+                       platform.includes(searchLower) || 
+                       tags.includes(searchLower);
+            });
+        }
         
         // Render only first 50 for perf
         const frag = document.createDocumentFragment();
-        rows.slice(0, 50).forEach(r => {
+        if(filteredRows.length === 0) {
             const tr = document.createElement('tr');
-            tr.className = "transition";
-            tr.innerHTML = `
-                <td class="font-mono font-bold text-mutedForeground">${r[1]}</td>
-                <td class="font-bold text-foreground">${r[3]}</td>
-                <td><span class="text-xs border-2 border-border px-1 font-bold ${r[5]==='Hard'?'text-destructive':(r[5]==='Medium'?'text-warning':'text-success')}">${r[5]}</span></td>
-                <td class="text-right font-mono text-mutedForeground">${r[2]}m</td>
-                <td class="text-right">
-                    <button class="mr-2 hover:text-primary" onclick="viewLog(${r[0]})"><i class="fa-solid fa-eye"></i></button>
-                    <button class="hover:text-destructive" onclick="deleteLog(${r[0]})"><i class="fa-solid fa-trash"></i></button>
-                </td>`;
+            tr.innerHTML = '<td colspan="5" class="text-center py-4 text-mutedForeground font-bold">No logs found</td>';
             frag.appendChild(tr);
-        });
+        } else {
+            filteredRows.slice(0, 50).forEach(r => {
+                const tr = document.createElement('tr');
+                tr.className = "transition hover:bg-card";
+                tr.innerHTML = `
+                    <td class="font-mono font-bold text-mutedForeground">${r[1] || ''}</td>
+                    <td class="font-bold text-foreground">${r[3] || ''}</td>
+                    <td><span class="text-xs border-2 border-border px-1 font-bold ${r[5]==='Hard'?'text-destructive':(r[5]==='Medium'?'text-warning':'text-success')}">${r[5] || 'N/A'}</span></td>
+                    <td class="text-right font-mono text-mutedForeground">${r[2] || 0}m</td>
+                    <td class="text-right">
+                        <button class="mr-2 hover:text-primary transition" onclick="viewLog(${r[0]})" title="View"><i class="fa-solid fa-eye"></i></button>
+                        <button class="hover:text-destructive transition" onclick="deleteLog(${r[0]})" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                    </td>`;
+                frag.appendChild(tr);
+            });
+        }
         tbody.appendChild(frag);
     }
 }
@@ -732,7 +741,8 @@ function renderQuests() {
         const [id, type, target, progress, completed, text, date, category] = r;
         const isComplete = completed === 1;
         const div = document.createElement('div');
-        div.className = `quest-item flex justify-between items-center p-2 text-xs font-bold ${isComplete ? 'quest-completed' : ''}`;
+        div.className = `quest-item flex justify-between items-center p-2 text-xs font-bold ${isComplete ? 'quest-completed' : 'cursor-pointer hover:bg-card/50 transition-colors'}`;
+        div.dataset.questId = id;
         
         // Show category badge and task
         const categoryColors = {
@@ -744,16 +754,76 @@ function renderQuests() {
         };
         const catColor = categoryColors[category] || 'bg-muted text-foreground';
         
+        // Determine if quest can be auto-tracked or needs manual completion
+        const questText = text.toLowerCase();
+        const isAutoTrackable = category === 'Core' && (
+            questText.includes('leetcode') || 
+            questText.includes('hackerrank') || 
+            questText.includes('codeforces') || 
+            questText.includes('problem') ||
+            questText.includes('solve')
+        );
+        
         div.innerHTML = `
             <div class="flex items-center gap-2 flex-1">
                 <span class="text-[8px] px-1 py-0.5 ${catColor} font-bold uppercase">${category || 'Task'}</span>
                 <span class="flex-1">${text}</span>
             </div>
-            <span class="font-mono text-mutedForeground">${isComplete ? '✓' : `${progress}/${target}m`}</span>
+            <span class="font-mono text-mutedForeground">
+                ${isComplete ? '✓' : (isAutoTrackable ? `${progress}/${target}m` : 'Click to complete')}
+            </span>
         `;
+        
+        // Add click handler for manual completion (if not already complete)
+        if (!isComplete) {
+            div.addEventListener('click', () => completeQuest(id, text));
+            div.title = 'Click to mark as complete';
+        }
+        
         frag.appendChild(div);
     });
     c.appendChild(frag);
+}
+
+function completeQuest(questId, questText) {
+    if(!window.db) return;
+    
+    // Get current quest data
+    const res = window.db.exec(`SELECT * FROM quests WHERE id=${questId}`);
+    if(!res.length || !res[0].values.length) return;
+    
+    const [id, type, target, progress, completed, text, date, category] = res[0].values[0];
+    if (completed === 1) return; // Already completed
+    
+    // Mark as complete
+    window.db.run("UPDATE quests SET progress=?, completed=? WHERE id=?", [target, 1, id]);
+    window.saveDB();
+    
+    // Play success sound and show toast
+    soundManager.playComplete();
+    showToast(`Quest Complete: ${text}`, 'success');
+    
+    // Confetti effect
+    if (window.confetti) {
+        confetti({ 
+            particleCount: 100, 
+            spread: 70, 
+            origin: { y: 0.6 },
+            colors: ['#ff4444', '#ff6666', '#ff8888', '#44ff44', '#66ff66']
+        });
+    }
+    
+    // Find and animate the quest item
+    const questItems = document.querySelectorAll('.quest-item');
+    questItems.forEach(item => {
+        if (item.dataset.questId == questId) {
+            createParticles(item);
+            item.classList.add('quest-completed');
+        }
+    });
+    
+    // Re-render to update UI
+    renderQuests();
 }
 
 function updateQuests(entry) {
@@ -767,9 +837,26 @@ function updateQuests(entry) {
         let [id, type, target, progress, completed, text, date, category] = r;
         if (completed) return;
 
-        // For activity-based quests, track time spent
+        // Only update quests that match the logged activity
         if (type === 'activity') {
-            progress += parseInt(entry.time || 0);
+            // Only update "Core" category quests when logging coding problems
+            // Other categories (Learning, Wellness, Quick, Review) are manual tasks
+            if (category === 'Core') {
+                // Check if the quest text mentions problem solving
+                const questText = text.toLowerCase();
+                const isProblemQuest = questText.includes('leetcode') || 
+                                     questText.includes('hackerrank') || 
+                                     questText.includes('codeforces') || 
+                                     questText.includes('problem') ||
+                                     questText.includes('solve');
+                
+                // Only update if it's a problem-solving quest
+                if (isProblemQuest) {
+                    progress += parseInt(entry.time || 0);
+                }
+            }
+            // For other categories, don't auto-update from coding logs
+            // They should be manually completed
         } else {
             // Legacy quest types
             if (type === 'count') progress += 1;

@@ -6,81 +6,37 @@ A high-performance coding habit tracker with dark mode neo-brutalist design, gam
 
 ## 📸 Screenshots
 
-> **Note**: Add screenshots to showcase your app! Suggested captures:
-
-### Recommended Screenshots:
-
-1. **Main Dashboard** (`screenshot-dashboard.png`)
-   - Full view of the main interface showing:
-     - Header with rank, level, XP bar
-     - Stats cards (Streak, Weekly Goal, Solved, Total Time)
-     - Activity calendar heatmap
-     - Recent activity table
-
-2. **Daily Quests** (`screenshot-quests.png`)
-   - Daily quests section showing:
-     - 3 active quests with category badges
-     - Progress indicators
-     - Completed quest with checkmark
-     - Category color coding (Core, Learning, Wellness)
-
-3. **Achievements/Badges** (`screenshot-badges.png`)
-   - Badges section displaying:
-     - Unlocked badges with glow effects
-     - Locked badges in grayscale
-     - Badge categories (Milestones, Streaks, Mastery, etc.)
-     - Achievement icons and descriptions
-
-4. **Log Entry Modal** (`screenshot-log-modal.png`)
-   - New log entry form showing:
-     - All input fields (date, problem name, platform, difficulty, time, tags, description)
-     - Form styling with neo-brutalist design
-     - Save button
-
-5. **Activity Calendar** (`screenshot-calendar.png`)
-   - Close-up of the calendar heatmap showing:
-     - Different intensity levels (color-coded days)
-     - Month navigation
-     - Hover effects on active days
-
-6. **Analytics & Charts** (`screenshot-analytics.png`)
-   - Charts section showing:
-     - Difficulty distribution pie chart
-     - Platform usage chart
-     - Weekly progress visualization
-
-7. **Focus Timer** (`screenshot-timer.png`)
-   - Expanded timer widget showing:
-     - Timer display
-     - Start/Pause/Stop buttons
-     - Timer styling
-
-8. **Settings Modal** (`screenshot-settings.png`)
-   - Settings interface showing:
-     - Weekly goal input
-     - Other settings options
-
-### Screenshot Tips:
-- **Resolution**: Use 1920x1080 or higher for best quality
-- **Format**: PNG for best quality, or optimized WebP
-- **Naming**: Use descriptive names like `screenshot-dashboard.png`
-- **Consistency**: Use the same browser/theme for all screenshots
-- **Show Data**: Add some sample data to make screenshots more realistic
-- **Highlight Features**: Use arrows or annotations to highlight key features if needed
-
-### Adding Screenshots to README:
-```markdown
-## 📸 Screenshots
-
 ### Main Dashboard
-![Dashboard](screenshots/screenshot-dashboard.png)
+![Dashboard](screenshot/screenshot-dashboard.png)
+Full view of the main interface showing header with rank, level, XP bar, stats cards, activity calendar heatmap, and recent activity table.
 
 ### Daily Quests
-![Daily Quests](screenshots/screenshot-quests.png)
+![Daily Quests](screenshot/screenshot-quests.png)
+Daily quests section showing 3 active quests with category badges, progress indicators, and category color coding (Core, Learning, Wellness).
 
 ### Achievements
-![Achievements](screenshots/screenshot-badges.png)
-```
+![Achievements](screenshot/screenshot-badges.png)
+Badges section displaying unlocked badges with glow effects, locked badges in grayscale, and badge categories (Milestones, Streaks, Mastery, etc.).
+
+### Log Entry Modal
+![Log Entry Modal](screenshot/screenshot-log-modal.png)
+New log entry form showing all input fields (date, problem name, platform, difficulty, time, tags, description) with neo-brutalist design.
+
+### Activity Calendar
+![Activity Calendar](screenshot/screenshot-calendar.png)
+Close-up of the calendar heatmap showing different intensity levels (color-coded days) and month navigation.
+
+### Analytics & Charts
+![Analytics](screenshot/screenshot-analytics.png)
+Charts section showing difficulty distribution pie chart, platform usage chart, and weekly progress visualization.
+
+### Focus Timer
+![Focus Timer](screenshot/screenshot-timer.png)
+Expanded timer widget showing timer display, Start/Pause/Stop buttons, and timer styling.
+
+### Settings
+![Settings](screenshot/screenshot-settings.png)
+Settings interface showing weekly goal input and other settings options.
 
 ## ✨ Features
 
@@ -104,7 +60,6 @@ A high-performance coding habit tracker with dark mode neo-brutalist design, gam
 ### 🎨 Design & UX
 - **Dark Mode Neo-Brutalist Design**: Sharp edges, high contrast, offset shadows
 - **Smooth Animations**: Pulse effects, glows, slide-ins, and particle effects
-- **Sound Feedback**: Audio cues for interactions, achievements, and completions
 - **Color-Coded Ranks**: Visual distinction for each rank level with glow effects
 - **Responsive Layout**: Works seamlessly on desktop and mobile devices
 
@@ -123,8 +78,18 @@ A high-performance coding habit tracker with dark mode neo-brutalist design, gam
 - **Local Storage**: All data stored locally in your browser using SQL.js (WebAssembly SQLite)
 - **Export/Import**: Backup and restore your data
 - **No Backend Required**: Fully client-side application
+- **Demo Database**: Generate a sample database with 2 weeks of data to explore all features
 
 ## 🚀 Getting Started
+
+### Quick Demo (Optional)
+To see the app with sample data:
+1. Open `generate-demo-db.html` in your browser
+2. Click "Generate & Download Database"
+3. In DevTracker, click "RESTORE" and select the downloaded `devtracker_demo.sqlite` file
+4. Explore all features with pre-populated data!
+
+## 📦 Installation
 
 ### Prerequisites
 - A modern web browser (Chrome, Firefox, Edge, Safari)
@@ -161,13 +126,14 @@ A high-performance coding habit tracker with dark mode neo-brutalist design, gam
 
 ```
 DevTracker/
-├── index.html          # Main HTML file
+├── index.html              # Main HTML file
 ├── css/
-│   └── styles.css     # Custom styles and animations
+│   └── styles.css         # Custom styles and animations
 ├── js/
-│   ├── db.js          # Database initialization and management
-│   └── app.js         # Main application logic
-└── README.md          # This file
+│   ├── db.js              # Database initialization and management
+│   └── app.js             # Main application logic
+├── generate-demo-db.html   # Demo database generator tool
+└── README.md              # This file
 ```
 
 ## 🛠️ Technology Stack

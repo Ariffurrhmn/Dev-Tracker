@@ -303,32 +303,35 @@ header {
     position: relative;
 }
 
-.intensity-0 { background-color: var(--color-card); }
+.intensity-0 { 
+    background-color: var(--color-card); 
+    color: var(--color-mutedforeground);
+}
 .intensity-1 { 
-    background-color: var(--color-secondary); 
+    background-color: hsl(220 15% 18%); /* Slightly lighter than card */
     border-color: var(--color-border); 
     color: var(--color-foreground);
-    animation: pulse 2s infinite;
+    border-left: 3px solid hsl(142 71% 45% / 0.3); /* Subtle green accent */
 }
 .intensity-2 { 
-    background-color: var(--color-muted); 
+    background-color: hsl(220 15% 22%); /* Medium gray */
     border-color: var(--color-border); 
     color: var(--color-foreground);
-    animation: pulse 1.5s infinite;
+    border-left: 3px solid hsl(142 71% 45% / 0.6); /* More visible green */
 }
 .intensity-3 { 
     background-color: var(--color-accent); 
     border-color: var(--color-border); 
     color: var(--color-accentforeground);
-    animation: pulse 1s infinite;
     box-shadow: var(--shadow-sm), var(--glow-accent);
+    border-left: 3px solid var(--color-accent);
 }
 .intensity-4 { 
     background-color: var(--color-primary); 
     color: var(--color-primaryforeground); 
     border-color: var(--color-border); 
     box-shadow: var(--shadow-sm), var(--glow-primary);
-    animation: glow 2s infinite;
+    border-left: 3px solid var(--color-primary);
 }
 
 /* Modals */
@@ -382,12 +385,19 @@ header {
     border-radius: 0;
     transition: all 0.2s;
     animation: slideInLeft 0.3s ease-out;
+    position: relative;
 }
 
-.quest-item:hover {
+.quest-item:hover:not(.quest-completed) {
     transform: translateX(5px);
     border-color: var(--color-accent);
     box-shadow: var(--shadow-sm), var(--glow-accent);
+    cursor: pointer;
+}
+
+.quest-item.quest-completed {
+    opacity: 0.7;
+    border-color: var(--color-success);
 }
 
 .quest-completed { 
