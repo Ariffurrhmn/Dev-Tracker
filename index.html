@@ -16,25 +16,25 @@
                         mono: ['Space Mono', 'monospace'],
                     },
                     colors: {
-                        background: 'hsl(220 15% 10%)',
-                        foreground: 'hsl(220 10% 90%)',
-                        card: 'hsl(220 15% 14%)',
-                        cardForeground: 'hsl(220 10% 90%)',
-                        primary: 'hsl(0 85% 60%)',
-                        primaryForeground: 'hsl(0 0% 100%)',
-                        secondary: 'hsl(220 15% 20%)',
-                        secondaryForeground: 'hsl(220 10% 90%)',
-                        muted: 'hsl(220 15% 25%)',
-                        mutedForeground: 'hsl(220 10% 65%)',
-                        accent: 'hsl(240 80% 65%)',
-                        accentForeground: 'hsl(0 0% 100%)',
-                        destructive: 'hsl(0 70% 50%)',
-                        destructiveForeground: 'hsl(0 0% 98%)',
-                        border: 'hsl(220 15% 30%)',
-                        input: 'hsl(220 15% 16%)',
-                        ring: 'hsl(0 85% 60%)',
-                        success: 'hsl(142, 71%, 45%)',
-                        warning: 'hsl(48, 96%, 50%)',
+                        background: '#121212',
+                        foreground: '#FFFFFF',
+                        card: '#1E1E1E',
+                        cardForeground: '#FFFFFF',
+                        primary: '#FF6B6B',
+                        primaryForeground: '#000000',
+                        secondary: '#4ECDC4',
+                        secondaryForeground: '#000000',
+                        muted: '#2A2A2A',
+                        mutedForeground: '#A0A0A0',
+                        accent: '#FFE66D',
+                        accentForeground: '#000000',
+                        destructive: '#FF6B6B',
+                        destructiveForeground: '#FFFFFF',
+                        border: '#000000',
+                        input: '#2A2A2A',
+                        ring: '#FF6B6B',
+                        success: '#C7F464',
+                        warning: '#FFE66D',
                     },
                     borderRadius: {
                         sm: '0',
@@ -92,36 +92,36 @@
     </div>
 
     <!-- HEADER -->
-    <header class="border-b-2 border-border bg-card sticky top-0 z-40 shadow-md backdrop-blur-none">
+    <header class="border-b-2 border-gray-800 bg-card sticky top-0 z-40 shadow-lg shadow-black/50">
         <div class="max-w-7xl mx-auto py-4 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-4 w-full md:w-auto">
-                <div class="w-12 h-12 bg-foreground border-2 border-border shadow-sm flex items-center justify-center text-primary text-2xl">
+                <div class="w-12 h-12 bg-black border-2 border-primary shadow-sm flex items-center justify-center text-primary text-2xl" style="box-shadow: 2px 2px 0 0 #000000;">
                     <i class="fa-solid fa-terminal"></i>
                 </div>
                 <div>
-                    <h1 class="text-3xl font-black uppercase tracking-tighter text-foreground">DevTracker</h1>
+                    <h1 class="text-3xl font-black uppercase tracking-tighter text-white">DevTracker</h1>
                     <div class="flex items-center gap-2">
-                        <span id="headerDate" class="text-xs font-bold font-mono uppercase tracking-wide border-l-2 border-border pl-2 text-mutedForeground"></span>
+                        <span id="headerDate" class="text-xs font-bold font-mono uppercase tracking-wide border-l-2 border-gray-700 pl-2 text-gray-400"></span>
                     </div>
-                    <span class="text-xs font-bold block mt-1 text-mutedForeground">User: <span id="userNameDisplay" class="text-foreground">Loading...</span></span>
+                    <span class="text-xs font-bold block mt-1 text-gray-500">User: <span id="userNameDisplay" class="text-white">Loading...</span></span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4 w-full md:w-auto bg-card border-2 border-border p-3 shadow-sm">
-                <div class="flex flex-col items-center px-2 border-r-2 border-border">
-                    <div class="text-xs font-bold uppercase text-mutedForeground">Rank</div>
+            <div class="flex items-center gap-4 w-full md:w-auto bg-[#151515] border-2 border-[#333] p-3">
+                <div class="flex flex-col items-center px-2 border-r-2 border-[#333]">
+                    <div class="text-xs font-bold uppercase text-gray-500">Rank</div>
                     <div id="rankName" class="font-black text-lg text-accent">---</div>
                 </div>
                 <div class="flex-1 min-w-[150px]">
-                    <div class="flex justify-between text-xs font-bold mb-1 text-mutedForeground">
-                        <span>LVL <span id="userLevel" class="text-foreground">0</span></span>
+                    <div class="flex justify-between text-xs font-bold mb-1 text-gray-400">
+                        <span>LVL <span id="userLevel" class="text-white">0</span></span>
                         <span id="xpText" class="font-mono">0/100</span>
                     </div>
                     <div class="h-3 w-full xp-bg">
                         <div id="xpProgressBar" class="xp-fill" style="width: 0%"></div>
                     </div>
                 </div>
-                <button id="settingsBtn" class="shad-btn bg-foreground text-primaryForeground h-8 w-8 p-0 hover:opacity-90 border-border"><i class="fa-solid fa-cog"></i></button>
+                <button id="settingsBtn" class="shad-btn bg-black text-white h-8 w-8 p-0 hover:bg-gray-800 border-gray-600"><i class="fa-solid fa-cog"></i></button>
             </div>
         </div>
     </header>
@@ -129,7 +129,7 @@
     <main class="flex-1 p-6 max-w-7xl mx-auto w-full space-y-8" style="position: relative; z-index: 1;">
         
         <!-- QUOTE BANNER -->
-        <div class="w-full bg-muted border-2 border-border p-2 text-center font-bold font-mono text-sm text-mutedForeground overflow-hidden shadow-sm">
+        <div class="w-full bg-[#1a1a1a] border-2 border-[#333] p-2 text-center font-bold font-mono text-sm text-gray-400 overflow-hidden">
              <p id="dailyQuote">Loading inspiration...</p>
         </div>
 
@@ -167,7 +167,7 @@
                 <!-- CALENDAR -->
                 <div class="shad-card p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-black text-xl uppercase border-b-2 border-border inline-block text-foreground">Activity Map</h3>
+                        <h3 class="font-black text-xl uppercase border-b-4 border-secondary inline-block text-white">Activity Map</h3>
                         <div class="flex gap-2">
                             <button id="prevMonthBtn" class="shad-btn bg-foreground text-primaryForeground h-8 w-8 border-border"><i class="fa-solid fa-arrow-left"></i></button>
                             <span id="currentMonthYear" class="font-bold font-mono text-lg px-2 text-foreground"></span>
@@ -182,8 +182,8 @@
 
                 <!-- HISTORY -->
                 <div class="shad-card flex flex-col">
-                    <div class="p-4 border-b-2 border-border flex justify-between items-center bg-muted">
-                        <h3 class="font-black text-lg uppercase text-foreground">Log History</h3>
+                    <div class="p-4 border-b-2 border-border flex justify-between items-center bg-[#252525]">
+                        <h3 class="font-black text-lg uppercase text-white">Log History</h3>
                         <div class="flex gap-2">
                             <input type="text" id="searchLogs" placeholder="SEARCH..." class="shad-input h-10 w-40 text-xs">
                             <button id="newLogBtn" class="shad-btn shad-btn-primary h-10 text-sm"><i class="fa-solid fa-plus mr-2"></i> NEW LOG</button>
@@ -206,7 +206,7 @@
             <div class="space-y-8">
                 <!-- QUESTS -->
                 <div class="shad-card p-6 border-l-8 border-l-primary">
-                    <h3 class="font-black text-lg uppercase mb-4 flex items-center gap-2 text-foreground">
+                    <h3 class="font-black text-lg uppercase mb-4 flex items-center gap-2 text-white">
                         <i class="fa-solid fa-scroll text-primary"></i> Daily Quests
                     </h3>
                     <div id="questsContainer" class="space-y-3"></div>
@@ -232,7 +232,7 @@
 
                 <!-- ACHIEVEMENTS -->
                 <div class="shad-card p-6 max-h-[500px] overflow-y-auto custom-scrollbar">
-                    <h3 class="font-black text-lg uppercase mb-4 sticky top-0 bg-card z-10 border-b-2 border-border pb-2 text-accent">Badges</h3>
+                    <h3 class="font-black text-lg uppercase mb-4 sticky top-0 bg-[#1E1E1E] z-10 border-b-2 border-border pb-2 text-accent">Badges</h3>
                     <div id="badgesContainer" class="grid grid-cols-2 gap-3"></div>
                 </div>
             </div>
@@ -250,8 +250,8 @@
     <!-- LOG MODAL -->
     <div id="logModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
         <div class="modal-content w-full max-w-md">
-            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-muted">
-                <h3 class="font-black uppercase text-xl text-foreground">New Entry</h3>
+            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-[#252525]">
+                <h3 class="font-black uppercase text-xl text-white">New Entry</h3>
                 <button class="modal-close text-mutedForeground hover:text-foreground transition font-bold text-xl">&times;</button>
             </div>
             <div class="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
@@ -279,8 +279,8 @@
     <!-- SETTINGS MODAL -->
     <div id="settingsModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
         <div class="modal-content w-full max-w-sm">
-            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-muted">
-                <h3 class="font-black uppercase text-xl text-foreground">Settings</h3>
+            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-[#252525]">
+                <h3 class="font-black uppercase text-xl text-white">Settings</h3>
                 <button class="modal-close text-mutedForeground hover:text-foreground font-bold text-xl">&times;</button>
             </div>
             <div class="p-6 space-y-6">
@@ -302,9 +302,9 @@
     <!-- VIEW LOG MODAL -->
     <div id="viewLogModal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
         <div class="modal-content w-full max-w-md">
-            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-accent text-accentForeground">
-                <h3 class="font-black uppercase text-xl">Details</h3>
-                <button class="modal-close font-bold text-xl">&times;</button>
+            <div class="p-4 border-b-2 border-border flex justify-between items-center bg-accent text-black">
+                <h3 class="font-black uppercase text-xl text-black">Details</h3>
+                <button class="modal-close font-bold text-xl text-black">&times;</button>
             </div>
             <div class="p-6 space-y-4 font-mono text-sm" id="viewLogContent"></div>
             <div class="p-4 border-t-2 border-border flex justify-end bg-muted">

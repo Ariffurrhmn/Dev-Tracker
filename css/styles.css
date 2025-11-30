@@ -1,41 +1,41 @@
 :root {
-    /* Dark Mode Base */
-    --color-background: hsl(220 15% 10%); /* Deep charcoal */
-    --color-foreground: hsl(220 10% 90%); /* Soft off-white */
+    /* Dark Mode Base - Matching attached file */
+    --color-background: #121212;
+    --color-foreground: #FFFFFF;
 
     /* Surface Layers */
-    --color-card: hsl(220 15% 14%);
-    --color-cardforeground: hsl(220 10% 90%);
+    --color-card: #1E1E1E;
+    --color-cardforeground: #FFFFFF;
 
-    /* Primary Identity (Red retained) */
-    --color-primary: hsl(0 85% 60%);
-    --color-primaryforeground: hsl(0 0% 100%);
+    /* Primary Identity - Red/Pink */
+    --color-primary: #FF6B6B;
+    --color-primaryforeground: #000000;
 
-    /* Secondary */
-    --color-secondary: hsl(220 15% 20%);
-    --color-secondaryforeground: hsl(220 10% 90%);
+    /* Secondary - Cyan */
+    --color-secondary: #4ECDC4;
+    --color-secondaryforeground: #000000;
 
     /* Muted Elements */
-    --color-muted: hsl(220 15% 25%);
-    --color-mutedforeground: hsl(220 10% 65%);
+    --color-muted: #2A2A2A;
+    --color-mutedforeground: #A0A0A0;
 
-    /* Accents */
-    --color-accent: hsl(240 80% 65%);
-    --color-accentforeground: hsl(0 0% 100%);
+    /* Accents - Yellow */
+    --color-accent: #FFE66D;
+    --color-accentforeground: #000000;
 
     /* Destructive */
-    --color-destructive: hsl(0 70% 50%);
-    --color-destructiveforeground: hsl(0 0% 98%);
+    --color-destructive: #FF6B6B;
+    --color-destructiveforeground: #FFFFFF;
 
     /* Borders & Inputs */
-    --color-border: hsl(220 15% 30%); /* Visible against dark bg, not harsh */
-    --color-input: hsl(220 15% 16%);  /* Dark grey input (comfortable) */
-    --color-ring: hsl(0 85% 60%);
+    --color-border: #000000;
+    --color-input: #2A2A2A;
+    --color-ring: #FF6B6B;
 
     /* Shadows (Darkened for dark mode) */
-    --shadow-sm: 2px 2px 0 0 rgb(0 0 0 / 0.6);
-    --shadow-md: 4px 4px 0 0 rgb(0 0 0 / 0.6);
-    --shadow-lg: 8px 8px 0 0 rgb(0 0 0 / 0.6);
+    --shadow-sm: 2px 2px 0 0 rgb(0 0 0);
+    --shadow-md: 4px 4px 0 0 rgb(0 0 0);
+    --shadow-lg: 8px 8px 0 0 rgb(0 0 0);
 
     /* Structure Preserved */
     --radius-sm: 0;
@@ -64,13 +64,14 @@
     --border: var(--color-border);
     --input: var(--color-input);
     --ring: var(--color-ring);
-    --success: hsl(142, 71%, 45%);
-    --warning: hsl(48, 96%, 50%);
+    --success: #C7F464;
+    --warning: #FFE66D;
     
     /* Animation & Effects */
-    --glow-primary: 0 0 20px hsl(0 85% 60% / 0.5);
-    --glow-accent: 0 0 20px hsl(240 80% 65% / 0.5);
-    --glow-success: 0 0 20px hsl(142 71% 45% / 0.5);
+    --glow-primary: 0 0 20px rgba(255, 107, 107, 0.5);
+    --glow-accent: 0 0 20px rgba(255, 230, 109, 0.5);
+    --glow-success: 0 0 20px rgba(199, 244, 100, 0.5);
+    --glow-secondary: 0 0 20px rgba(78, 205, 196, 0.5);
 }
 
 body {
@@ -91,9 +92,9 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 50%, hsl(0 85% 60% / 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, hsl(240 80% 65% / 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, hsl(142 71% 45% / 0.03) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(199, 244, 100, 0.03) 0%, transparent 50%);
     animation: gradientShift 20s ease infinite;
     pointer-events: none;
     z-index: 0;
@@ -172,8 +173,8 @@ header {
     border: 2px solid var(--color-border);
     background-color: var(--color-card);
     color: var(--color-cardforeground);
-    box-shadow: var(--shadow-md);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 4px 0 0 var(--color-secondary);
+    transition: all 0.1s ease-in-out;
     border-radius: 0;
     animation: slideIn 0.3s ease-out;
     position: relative;
@@ -187,7 +188,7 @@ header {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, hsl(0 85% 60% / 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
     transition: left 0.5s;
 }
 
@@ -197,8 +198,8 @@ header {
 
 .shad-card:hover {
     transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-lg), var(--glow-primary);
-    border-color: var(--color-primary);
+    box-shadow: 6px 6px 0 0 var(--color-secondary);
+    border-color: var(--color-border);
 }
 
 .shad-input, .shad-textarea {
@@ -304,52 +305,49 @@ header {
 }
 
 .intensity-0 { 
-    background-color: var(--color-card); 
-    color: var(--color-mutedforeground);
+    background-color: #1a1a1a; 
+    color: #666;
 }
 .intensity-1 { 
-    background-color: hsl(220 15% 18%); /* Slightly lighter than card */
-    border-color: var(--color-border); 
-    color: var(--color-foreground);
-    border-left: 3px solid hsl(142 71% 45% / 0.3); /* Subtle green accent */
+    background-color: #1e3a2f;
+    border-color: #2d5a48; 
+    color: #88cea8;
 }
 .intensity-2 { 
-    background-color: hsl(220 15% 22%); /* Medium gray */
-    border-color: var(--color-border); 
-    color: var(--color-foreground);
-    border-left: 3px solid hsl(142 71% 45% / 0.6); /* More visible green */
+    background-color: #265c42;
+    border-color: #3d8c65; 
+    color: #fff;
 }
 .intensity-3 { 
-    background-color: var(--color-accent); 
-    border-color: var(--color-border); 
-    color: var(--color-accentforeground);
-    box-shadow: var(--shadow-sm), var(--glow-accent);
-    border-left: 3px solid var(--color-accent);
+    background-color: #2e7d56;
+    border-color: #4dbf85; 
+    color: #fff;
+    box-shadow: inset 0 0 10px rgba(78, 205, 196, 0.2);
 }
 .intensity-4 { 
-    background-color: var(--color-primary); 
-    color: var(--color-primaryforeground); 
-    border-color: var(--color-border); 
-    box-shadow: var(--shadow-sm), var(--glow-primary);
-    border-left: 3px solid var(--color-primary);
+    background-color: var(--color-secondary); 
+    color: #000; 
+    border-color: var(--color-secondary); 
+    font-weight: bold;
+    box-shadow: 0 0 10px var(--color-secondary);
 }
 
 /* Modals */
 .modal-overlay { 
-    background-color: rgba(0, 0, 0, 0.8); 
+    background-color: rgba(0, 0, 0, 0.9); 
     opacity: 0; pointer-events: none; transition: opacity 0.2s; 
 }
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
 .modal-content { 
     border: 2px solid var(--color-border); 
-    box-shadow: var(--shadow-lg);
-    background: var(--color-card); 
+    box-shadow: 8px 8px 0 0 var(--color-primary);
+    background: #222; 
     color: var(--color-cardforeground);
-    transform: scale(0.95); 
+    transform: scale(0.95) rotate(-1deg); 
     transition: all 0.2s; 
     border-radius: 0;
 }
-.modal-overlay.active .modal-content { transform: scale(1); }
+.modal-overlay.active .modal-content { transform: scale(1) rotate(0deg); }
 
 /* Badges */
 .badge-card { 
@@ -426,7 +424,7 @@ header {
     border-radius: 0;
 }
 .xp-fill { 
-    background: linear-gradient(90deg, var(--color-primary), hsl(0 85% 70%));
+    background: var(--color-accent);
     height: 100%; 
     border-right: 2px solid var(--color-border);
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
